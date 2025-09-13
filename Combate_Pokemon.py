@@ -14,7 +14,7 @@ burbuja = 4
 bola_voltio = 7
 onda_trueno = 6
 
-while actual_life_pikachu >= 1 and actual_life_squirtle >= 1:
+while ataque_squirtle not in ["a","b","c"]:
     print("turno pikachu")
     ataque_pikachu = randint(1, 2)
     if ataque_pikachu == 1:
@@ -76,3 +76,4 @@ if actual_life_squirtle > actual_life_pikachu:
     print("Squirtle gana la partida")
 else:
     print("Pikachu gana la partida")
+
