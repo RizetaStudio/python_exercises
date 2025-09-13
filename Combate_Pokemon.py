@@ -1,81 +1,78 @@
 from random import randint
 import os
 
+LIFE_PIKACHU = 10
+LIFE_SQUIRTLE = 9
 
-VIDA_INICIAL_PIKACHU = 120 #Controlado por la CPU
-VIDA_INICIAL_SQUIRTLE = 20 #Controlado por humano
-TAMAÑO_BARRA_VIDA = 20
-vida_pikachu = VIDA_INICIAL_PIKACHU
-vida_pikachu = max(vida_pikachu, 0)
-vida_squirtle = VIDA_INICIAL_SQUIRTLE
-vida_squirtle = max(vida_squirtle, 0)
+TAMANO_BARRA_VIDA = 20
 
-while vida_pikachu > 0 and vida_squirtle > 0:
-    #Empieza el combate por turnos
+actual_life_pikachu = LIFE_PIKACHU
+actual_life_squirtle = LIFE_SQUIRTLE
+placaje = 10
+pistola_agua = 12
+burbuja = 4
+bola_voltio = 7
+onda_trueno = 6
 
-    #Turno del pikachu (CPU)
-    print("turno del pikachu")
-    ataque_pikachu = randint(1,2)
-    # 1=bola voltio [10 daño] / 2=impact trueno [12 daño]
+while actual_life_pikachu >= 1 and actual_life_squirtle >= 1:
+    print("turno pikachu")
+    ataque_pikachu = randint(1, 2)
     if ataque_pikachu == 1:
-        print("Pikachu ataca con Vola Voltio")
-        vida_squirtle -= 10
-        # (vida_squirtle -= 10) es lo mismo que (vida_squirtle = vida_squirtle -10)
+        print("Pikachu ataca con bola voltio")
+        actual_life_squirtle -= bola_voltio
     else:
-        print ("Pikachu ataca con Impact Trueno")
-        vida_squirtle -= 12
+        print("Pikachu ataca con onda trueno")
+        actual_life_squirtle -= onda_trueno
 
-    if vida_pikachu < 0:
-        vida_pikachu = 0
+    if actual_life_pikachu < 0:
+        actual_life_pikachu = 0
+    if actual_life_squirtle < 0:
+        actual_life_squirtle = 0
 
-    elif vida_squirtle < 0:
-        vida_squirtle = 0
+    barras_life_pikachu = int(actual_life_pikachu * TAMANO_BARRA_VIDA / LIFE_PIKACHU)
+    barras_life_squirtle = int(actual_life_squirtle * TAMANO_BARRA_VIDA / LIFE_SQUIRTLE)
+    print("Pikachu:   [{}{}]  ({}/{})".format("#" * barras_life_pikachu, " " *
+                                              (TAMANO_BARRA_VIDA - barras_life_pikachu), actual_life_pikachu, LIFE_PIKACHU))
+    print("Squirtle:  [{}{}]  ({}/{})".format("#" * barras_life_squirtle, " " *
+                                              (TAMANO_BARRA_VIDA - barras_life_squirtle), actual_life_squirtle, LIFE_SQUIRTLE))
 
-    barra_de_vida_pikachu = int(vida_pikachu * TAMAÑO_BARRA_VIDA / VIDA_INICIAL_PIKACHU)
-    print("Pikachu:  [{}{}]".format("*" * barra_de_vida_pikachu, " " * (TAMAÑO_BARRA_VIDA - barra_de_vida_pikachu)) +
-          f" ({vida_pikachu}/{VIDA_INICIAL_PIKACHU})")
-    barra_de_vida_squirtle = int(vida_squirtle * TAMAÑO_BARRA_VIDA / VIDA_INICIAL_SQUIRTLE)
-    print("Squirtle: [{}{}]".format("*" * barra_de_vida_squirtle, " " * (TAMAÑO_BARRA_VIDA - barra_de_vida_squirtle)) +
-          f" ({vida_squirtle}/{VIDA_INICIAL_SQUIRTLE})")
+    input("press enter to continue\n\n")
+    os.system("cls")
 
-    input("Pulsa Enter para continuar")
-
-    os.system('cls')
-
-    #Turno del Squirtel (HUMANO)
-    print("Turno de Squirtle")
+    print("turno squiertle")
 
     ataque_squirtle = None
-    while (ataque_squirtle not in ["placaje", "pistola agua", "burbujas", "no hacer nada"]):
-        ataque_squirtle = input("Que ataque quieres hacer? [Placaje] [Pistola Agua] [Burbuja] [No hacer nada]")
-        if ataque_squirtle == "placaje":
-            vida_pikachu -= 10
-        elif ataque_squirtle == "pistola agua":
-            vida_pikachu -= 12
-        elif ataque_squirtle == "burbuja":
-            vida_pikachu -= 9
-        elif ataque_squirtle == "no hacer nada":
-            print("Squirtle no ha hecho nada...")
+    while ataque_squirtle != "a" and ataque_squirtle != "b" and ataque_squirtle != "c":
+        ataque_squirtle = input("Que ataque quieres realizar?\n"
+                                "a) Placaje\n"
+                                "b) pistola agua\n"
+                                "c) burbuja\n")
+    if ataque_squirtle == "a":
+        print("Squirtle ataca con placaje")
+        actual_life_pikachu -= placaje
+    elif ataque_squirtle == "b":
+        print("Squirtle ataca con pistola agua")
+        actual_life_pikachu -= pistola_agua
+    elif ataque_squirtle == "c":
+        print("Squirtle ataca con burbuja")
+        actual_life_pikachu -= burbuja
 
-    if vida_pikachu < 0:
-        vida_pikachu = 0
+    if actual_life_pikachu < 0:
+        actual_life_pikachu = 0
+    if actual_life_squirtle < 0:
+        actual_life_squirtle = 0
 
-    elif vida_squirtle < 0:
-        vida_squirtle = 0
+    barras_life_pikachu = int(actual_life_pikachu * TAMANO_BARRA_VIDA / LIFE_PIKACHU)
+    barras_life_squirtle = int(actual_life_squirtle * TAMANO_BARRA_VIDA / LIFE_SQUIRTLE)
+    print("Pikachu:   [{}{}]  ({}/{})".format("#" * barras_life_pikachu, " " * (TAMANO_BARRA_VIDA - barras_life_pikachu),
+                                              actual_life_pikachu, LIFE_PIKACHU))
+    print("Squirtle:  [{}{}]  ({}/{})".format("#" * barras_life_squirtle, " " * (TAMANO_BARRA_VIDA - barras_life_squirtle),
+                                              actual_life_squirtle, LIFE_SQUIRTLE))
 
-    barra_de_vida_pikachu = int(vida_pikachu * TAMAÑO_BARRA_VIDA / VIDA_INICIAL_PIKACHU)
-    print("Pikachu:  [{}{}]".format("*" * barra_de_vida_pikachu, " " * (TAMAÑO_BARRA_VIDA - barra_de_vida_pikachu)) +
-          f" ({vida_pikachu}/{VIDA_INICIAL_PIKACHU})")
-    barra_de_vida_squirtle = int(vida_squirtle * TAMAÑO_BARRA_VIDA / VIDA_INICIAL_SQUIRTLE)
+    input("press enter to continue\n\n")
+    os.system("cls")
 
-    print("Squirtle: [{}{}]".format("*" * barra_de_vida_squirtle, " " * (TAMAÑO_BARRA_VIDA - barra_de_vida_squirtle)) +
-          f" ({vida_squirtle}/{VIDA_INICIAL_SQUIRTLE})")
-
-    input("Pulsa Enter para continuar")
-
-    os.system('cls')
-
-if vida_pikachu > vida_squirtle:
-    input("pikachu gana")
-elif vida_pikachu < vida_squirtle:
-    input("squirtle gana")
+if actual_life_squirtle > actual_life_pikachu:
+    print("Squirtle gana la partida")
+else:
+    print("Pikachu gana la partida")
