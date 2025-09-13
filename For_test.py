@@ -20,24 +20,26 @@ for a in range(numero_de_repeticiones):
 
 #CONTADOR DE ESPACIOS, PUNTOS Y COMAS:
 
-espacios = " "
-puntos = "."
-comas = ","
-numero_espacios = 0
-numero_puntos = 0
-numero_comas = 0
+space = " "
+point = "."
+coma = ","
+count_space = 0
+count_point = 0
+count_coma = 0
 
-frase = input("escribe una frase para contar los espacios, puntos y comas: ")
+input_user = input("ingrese una frase")
 
-for letra in frase:
-    if letra in espacios:
-        numero_espacios += 1
-    elif letra in puntos:
-        numero_puntos += 1
-    elif letra in comas:
-        numero_comas += 1
+for item in input_user:
+    if item in space:
+        count_space += 1
 
-print(f"hay {numero_espacios} espacios, {numero_puntos} puntos y {numero_comas} comas en la frase")
+    elif item in point:
+        count_point += 1
+
+    elif item in coma:
+        count_coma += 1
+
+print("he encontrado {} espacios, {} puntos y {} comas".format(count_space, count_point, count_coma))
 
 
 #TABLA DE MULTIPLICAR EN BASE A UN NUMERO ELEGIDO:
@@ -45,4 +47,5 @@ print(f"hay {numero_espacios} espacios, {numero_puntos} puntos y {numero_comas} 
 numero = int(input("Que tabla de multiplicar quieres:"))
 
 for n in range(1, 11):
+
     print(f"{n} x {numero} = {n * numero}")
