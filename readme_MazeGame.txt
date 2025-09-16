@@ -5,7 +5,7 @@
 
 Este proyecto es un juego de snake desarrollado en Python. 
 El juego presenta un entorno dinámico con obstáculos, recolección de objetos y un sistema de movimiento basado en teclas. 
-Demuestra conceptos avanzados como bucles, listas, manejo de posiciones, y lógica de colisión.
+Demuestra conceptos como bucles, listas, manejo de posiciones, y lógica de colisión.
 
 
 Descripción del juego:
@@ -13,8 +13,6 @@ Descripción del juego:
 - **Objetivo:** Moverse por el laberinto, recolectar objetos (*) y evitar colisiones con la cola del personaje o los obstáculos.
 
 - **Inicio:** El jugador comienza en una posición inicial y puede moverse utilizando las teclas WASD.
-
-- **Cola dinámica:** Cada objeto recolectado aumenta la longitud de la cola del personaje.
 
 - **Fin del juego:** El juego termina si el jugador choca con su propia cola o decide salir presionando la tecla "P".
 
