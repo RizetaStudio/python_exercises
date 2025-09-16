@@ -3,7 +3,7 @@
       Ejercicios Prácticos en Python
 ======================================
 
-Este repositorio contiene una colección de ejercicios prácticos realizados durante el curso de Python en Mastermind. Cada ejercicio refleja diferentes conceptos y habilidades aprendidas, desde estructuras básicas hasta el uso de funciones y lógica aplicada.
+Este repositorio contiene una colección de ejercicios prácticos realizados durante el curso de Python. Cada ejercicio refleja diferentes conceptos y habilidades aprendidas, desde estructuras básicas hasta el uso de funciones y lógica aplicada.
 
 Contenido del repositorio:
 --------------------------
