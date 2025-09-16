@@ -1,79 +1,52 @@
 import os
-import readchar
 import random
-
-#CREACIÓN DEL MAPA Y POSICIÓN DEL JUGADOR
+from readchar import readchar
 
 POS_X = 0
 POS_Y = 1
-NUM_OF_OBJECTS_IN_MAP = 11 # Numero de objetos que habrá en el mapa
-my_position = [5, 6] # posición X y posición Y
-tail_lenght = 0
+MAP_WIDTH = 20 #ancho
+MAP_HEIGHT = 15 #alto
+NUM_MAP_OBJECTS = 11
+
+
+my_position = [8, 8] # [x, y]
 tail = []
 map_objects = []
-obstacle_definition = """"\
-#####                           
-#####                              
-#####                               
-#####                               
-                                    
-                                    
-                                    
-            #########               
-            #########               
-               ##                   
-                                    
-                                    
-                                    
-                              ######
-                              ######
-                        ############
-                        ############\
-"""
+tail_lenght = 0
 
 end_game = False
 died = False
 
-#CREATE OBSTACLE MAP
-obstacle_definition = [list(row) for row in obstacle_definition.split("\n")]
-
-MAP_WIDTH = len(obstacle_definition[0]) # X - ancho de mapa
-MAP_HEIGHT = len(obstacle_definition) # Y - alto de mapa
-
-#MAIN LOOP (BUCLE PRINCIPAL)
 while not end_game:
     os.system("cls")
 
-    # GENERATE RANDOM OBJECTS ON THE MAP
-    while len(map_objects) < NUM_OF_OBJECTS_IN_MAP:
-        new_position = [random.randint(0, MAP_WIDTH), random.randint(0, NUM_OF_OBJECTS_IN_MAP)]
-
+    while len(map_objects) < NUM_MAP_OBJECTS:
+        new_position = [random.randint(0, MAP_WIDTH), random.randint(0, MAP_HEIGHT)]
         if new_position not in map_objects and new_position != my_position:
             map_objects.append(new_position)
 
-    # DIBUJAR MAPA
-    print("+" + "-" * MAP_WIDTH * 3 + "+")
+    print("+" + "-" * (MAP_WIDTH * 3) + "+")
 
-    for cordinate_y in range(MAP_HEIGHT):
-        print("|", end="")
+    for coordinate_y in range(MAP_HEIGHT):
+        print ("|", end="")
 
-        for cordinate_x in range(MAP_WIDTH):
+        for coordinate_x in range(MAP_WIDTH):
 
             char_to_draw = " "
             object_in_cell = None
             tail_in_cell = None
 
-            for map_object in map_objects:
-                if map_object[POS_X] == cordinate_x and map_object[POS_Y] == cordinate_y:
+            for item in map_objects:
+                if item[POS_X] == coordinate_x and item[POS_Y] == coordinate_y:
                     char_to_draw = "*"
-                    object_in_cell = map_object
+                    object_in_cell = item
 
             for tail_piece in tail:
-                if tail_piece[POS_X] == cordinate_x and tail_piece[POS_Y] == cordinate_y:
-                    char_to_draw = "="
+                if tail_piece[POS_X] == coordinate_x and tail_piece[POS_Y] == coordinate_y:
+                    char_to_draw = "o"
                     tail_in_cell = tail_piece
 
-            if my_position[POS_X] == cordinate_x and my_position[POS_Y] == cordinate_y:
+            if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y:
                 char_to_draw = "@"
 
                 if object_in_cell:
@@ -81,54 +54,41 @@ while not end_game:
                     tail_lenght += 1
 
                 if tail_in_cell:
-                    print("Has muerto")
                     end_game = True
+                    died = True
 
-            if obstacle_definition[cordinate_y][cordinate_x] == "#":
-                char_to_draw = "#"
+            print(" {} ".format(char_to_draw), end="")
 
 
-            print(f" {char_to_draw} ", end="")
         print("|")
+    print("+" + "-" * (MAP_WIDTH * 3) + "+")
+    print("tamaño de la cola {}".format(tail_lenght))
 
-    print("+" + "-" * MAP_WIDTH * 3 + "+")
-
-    print(f"tamaño de la cola {tail_lenght}")
-    print(tail)
-
-
-    #CREACION DEL MOVIMIENTO DEL PERSONAJE
-
-    #direction = input("¿Donde te quieres mover? [WASD]: ")
-
-    direction = readchar.readchar()
-    new_position = None
-
+    direction = readchar()
     if direction == "w":
-        new_position = [my_position[POS_X], (my_position[POS_Y] - 1) % MAP_HEIGHT]
-
+        tail.insert(0, my_position.copy())
+        tail = tail[:tail_lenght]
+        my_position[POS_Y] -= 1
+        my_position[POS_Y] %= MAP_HEIGHT
     elif direction == "s":
-        new_position = [my_position[POS_X], (my_position[POS_Y] + 1) % MAP_HEIGHT]
-
+        tail.insert(0, my_position.copy())
+        tail = tail[:tail_lenght]
+        my_position[POS_Y] += 1
+        my_position[POS_Y] %= MAP_HEIGHT
     elif direction == "a":
-        new_position = [(my_position[POS_X] - 1) % MAP_WIDTH, my_position[POS_Y]]
-
+        tail.insert(0, my_position.copy())
+        tail = tail[:tail_lenght]
+        my_position[POS_X] -= 1
+        my_position[POS_X] %= MAP_WIDTH
     elif direction == "d":
-        new_position = [(my_position[POS_X] + 1) % MAP_WIDTH, my_position[POS_Y]]
-
-    elif direction == "p":
+        tail.insert(0, my_position.copy())
+        tail = tail[:tail_lenght]
+        my_position[POS_X] += 1
+        my_position[POS_X] %= MAP_WIDTH
+    elif direction == "q":
         end_game = True
 
-    if new_position:
-        # Verifica si la nueva posición no es un obstáculo
-        if obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != "#":
-            tail.insert(0, my_position.copy())
-            tail = tail[:tail_lenght]
-            # Actualizar ambas coordenadas X e Y
-            my_position[POS_X] = new_position[POS_X]
-            my_position[POS_Y] = new_position[POS_Y]
 
-    os.system("cls")
 
-    if died:
-        print("has muerto")
+if died == True:
+    print("Has muerto porque te has mordido la cola de {} metros".format(tail_lenght))
